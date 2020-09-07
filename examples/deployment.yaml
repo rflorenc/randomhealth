@@ -30,6 +30,11 @@ spec:
         name: randomhealth
         ports:
           - containerPort: 9337
+        env:
+        - name: MINTIME
+          value: "2"
+        - name: MAXTIME
+          value: "6"
         livenessProbe:
           initialDelaySeconds: 3
           periodSeconds: 5

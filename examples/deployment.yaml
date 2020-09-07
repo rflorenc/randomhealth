@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    version: "v0.1.0"
+  generation: 1
+  labels:
+    app: randomhealth
+  name: randomhealth
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 2
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: randomhealth
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: randomhealth
+    spec:
+      containers:
+      - image: docker.io/rfplay/randomhealth
+        imagePullPolicy: IfNotPresent
+        name: randomhealth
+        ports:
+          - containerPort: 9337
+        livenessProbe:
+          initialDelaySeconds: 3
+          periodSeconds: 5
+          httpGet:
+            path: /health
+            port: 9337
+        resources:
+          limits:
+            cpu: 2m
+            memory: 20Mi
+          requests:
+            cpu: 1m
+            memory: 2Mi
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      terminationGracePeriodSeconds: 30

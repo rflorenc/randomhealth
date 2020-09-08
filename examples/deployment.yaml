@@ -2,13 +2,13 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   annotations:
-    version: "v0.1.0"
+    version: "0.1.0"
   generation: 1
   labels:
     app: randomhealth
   name: randomhealth
 spec:
-  progressDeadlineSeconds: 600
+  progressDeadlineSeconds: 60
   replicas: 2
   revisionHistoryLimit: 10
   selector:
